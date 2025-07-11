@@ -5,9 +5,10 @@ import { Category } from "../types/types";
 interface ExpenseProps {
     expense: ExpenseNode;
     updateExpesne(Editedxpesnse: ExpenseNode): void;
+    deleteExpense(id: string): void;
 }
 
-function Expense({ expense, updateExpesne }: ExpenseProps) {
+function Expense({ expense, updateExpesne, deleteExpense }: ExpenseProps) {
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editedExpesne, setEditedExpense] = useState<ExpenseNode>(expense);
 
@@ -27,6 +28,10 @@ function Expense({ expense, updateExpesne }: ExpenseProps) {
     function handleSave() {
         updateExpesne(editedExpesne)
         setEditMode(false);
+    }
+
+    function handleDelete() {
+        deleteExpense(expense.id);
     }
 
     return (
@@ -69,7 +74,7 @@ function Expense({ expense, updateExpesne }: ExpenseProps) {
                     <td>{expense.amount}</td>
                     <td>{expense.category}</td>
                     <td><button onClick={handleEdit}>Edit</button></td>
-                    <td><button>Delete</button></td>
+                    <td><button onClick={handleDelete}>Delete</button></td>
                 </>
             )}
         </tr>

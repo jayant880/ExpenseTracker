@@ -18,10 +18,15 @@ function App() {
     setExpenseList(updatedExpenseList);
   }
 
+  function deleteExpense(id: string): void {
+    const updatedExpenseList = expenseList.filter((expense: ExpenseNode) => expense.id !== id);
+    setExpenseList(updatedExpenseList);
+  }
+
   return (
     <>
       <ExpenseForm addExpense={addExpense} />
-      <ViewExpesnes expenseList={expenseList} updateExpesne={updateExpesne} />
+      <ViewExpesnes expenseList={expenseList} updateExpesne={updateExpesne} deleteExpense={deleteExpense} />
     </>
   )
 }
