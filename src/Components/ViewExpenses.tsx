@@ -3,11 +3,11 @@ import Expense from "./Expense";
 
 interface ViewExpenseProps {
     expenseList: ExpenseNode[];
-    updateExpesne(Editedxpesnse: ExpenseNode): void;
+    updateExpense(Editedxpesnse: ExpenseNode): void;
     deleteExpense(id: string): void;
 }
 
-function ViewExpenses({ expenseList, updateExpesne, deleteExpense }: ViewExpenseProps) {
+function ViewExpenses({ expenseList, updateExpense: updateExpense, deleteExpense }: ViewExpenseProps) {
     if (expenseList.length === 0) return (
         <p>No expenses yet</p>
     );
@@ -25,7 +25,7 @@ function ViewExpenses({ expenseList, updateExpesne, deleteExpense }: ViewExpense
             </thead>
             <tbody>
                 {expenseList.map((expense: ExpenseNode) => (
-                    <Expense key={expense.id} expense={expense} updateExpesne={updateExpesne} deleteExpense={deleteExpense} />
+                    <Expense key={expense.id} expense={expense} updateExpense={updateExpense} deleteExpense={deleteExpense} />
                 ))}
             </tbody>
         </table>

@@ -12,7 +12,7 @@ function App() {
     setExpenseList([...expenseList, newExpense]);
   }
 
-  function updateExpesne(editedExpense: ExpenseNode): void {
+  function updateExpense(editedExpense: ExpenseNode): void {
     const updatedExpenseList = expenseList.map((expense: ExpenseNode) => {
       return editedExpense.id === expense.id ? editedExpense : expense;
     })
@@ -31,7 +31,7 @@ function App() {
   return (
     <>
       <ExpenseForm addExpense={addExpense} />
-      <ViewExpesnes expenseList={expenseList} updateExpesne={updateExpesne} deleteExpense={deleteExpense} />
+      <ViewExpesnes expenseList={expenseList} updateExpense={updateExpense} deleteExpense={deleteExpense} />
     </>
   )
 }

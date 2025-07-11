@@ -4,11 +4,11 @@ import { Category } from "../types/types";
 
 interface ExpenseProps {
     expense: ExpenseNode;
-    updateExpesne(Editedxpesnse: ExpenseNode): void;
+    updateExpense(Editedxpesnse: ExpenseNode): void;
     deleteExpense(id: string): void;
 }
 
-function Expense({ expense, updateExpesne, deleteExpense }: ExpenseProps) {
+function Expense({ expense, updateExpense: updateExpesne, deleteExpense }: ExpenseProps) {
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editedExpesne, setEditedExpense] = useState<ExpenseNode>(expense);
 
