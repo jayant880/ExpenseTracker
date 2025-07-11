@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ExpenseForm from "./Components/ExpenseForm"
 import ViewExpesnes from "./Components/ViewExpenses";
+import { loadFromLocalStorage, saveToLocalStorage } from "./utils/localStorage";
 import type { ExpenseNode } from "./types/types";
 
 function App() {
-  const [expenseList, setExpenseList] = useState<ExpenseNode[]>([]);
+  const [expenseList, setExpenseList] = useState<ExpenseNode[]>(loadFromLocalStorage);
 
   function addExpense(newExpense: ExpenseNode): void {
     newExpense = { ...newExpense, id: crypto.randomUUID() }
@@ -22,6 +23,10 @@ function App() {
     const updatedExpenseList = expenseList.filter((expense: ExpenseNode) => expense.id !== id);
     setExpenseList(updatedExpenseList);
   }
+
+  useEffect(() => {
+    saveToLocalStorage(expenseList);
+  }, [expenseList])
 
   return (
     <>
