@@ -3,6 +3,7 @@ import type { ExpenseNode } from "../types/types";
 import { Category } from '../types/types';
 
 const INITIAL_EXPENSE: ExpenseNode = {
+    id: "",
     name: "",
     amount: 0,
     category: Category.None
