@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ExpenseForm from "./Components/ExpenseForm"
+import ViewExpesnes from "./Components/ViewExpenses";
 import type { Expense } from "./types/types";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   return (
     <>
       <ExpenseForm addExpense={addExpense} />
+      <ViewExpesnes expenseList={expenseList} />
     </>
   )
 }
