@@ -1,7 +1,7 @@
-import type { Expense } from "../types/types";
+import type { ExpenseNode } from "../types/types";
 
 interface ViewExpenseProps {
-    expenseList: Expense[];
+    expenseList: ExpenseNode[];
 }
 
 function ViewExpenses({ expenseList }: ViewExpenseProps) {
@@ -19,7 +19,7 @@ function ViewExpenses({ expenseList }: ViewExpenseProps) {
                 </tr>
             </thead>
             <tbody>
-                {expenseList.map((expense: Expense, index: number) => (
+                {expenseList.map((expense: ExpenseNode, index: number) => (
                     <tr key={index}>
                         <td>{expense.name}</td>
                         <td>{expense.amount}</td>

@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import type { Expense } from "../types/types";
+import type { ExpenseNode } from "../types/types";
 import { Category } from '../types/types';
 
-const INITIAL_EXPENSE: Expense = {
+const INITIAL_EXPENSE: ExpenseNode = {
     name: "",
     amount: 0,
     category: Category.None
 };
 
 interface ExpenseFormProps {
-    addExpense: (newExpense: Expense) => void;
+    addExpense: (newExpense: ExpenseNode) => void;
 }
 
 function ExpenseForm({ addExpense }: ExpenseFormProps) {
-    const [expense, setExpense] = useState<Expense>(INITIAL_EXPENSE);
+    const [expense, setExpense] = useState<ExpenseNode>(INITIAL_EXPENSE);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = e.target;

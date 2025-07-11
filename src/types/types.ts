@@ -1,4 +1,4 @@
-export interface Expense {
+export interface ExpenseNode {
     name: string;
     amount: number | "";
     category: Category;
