@@ -19,6 +19,7 @@ function ViewExpenses({ expenseList, updateExpense: updateExpense, deleteExpense
                     <th>Name</th>
                     <th>Amount</th>
                     <th>Category</th>
+                    <th>Transaction Date</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>

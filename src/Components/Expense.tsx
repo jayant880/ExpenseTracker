@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ExpenseNode } from "../types/types"
 import { Category } from "../types/types";
+import { format } from 'date-fns';
 
 interface ExpenseProps {
     expense: ExpenseNode;
@@ -21,7 +22,8 @@ function Expense({ expense, updateExpense: updateExpesne, deleteExpense }: Expen
         const { name, value } = e.target;
         setEditedExpense(prev => ({
             ...prev,
-            [name]: name === "amount" ? Number(value) : value
+            [name]: name === "amount" ? Number(value) :
+                name === "date" ? new Date(value) : value
         }));
     }
 
@@ -64,6 +66,13 @@ function Expense({ expense, updateExpense: updateExpesne, deleteExpense }: Expen
                         <option value={Category.Bill}>Bill</option>
                     </select>
                     </td>
+                    <td><input
+                        type="date"
+                        id="date"
+                        name="date"
+                        value={format(editedExpesne.date, 'dd-MM-yyyy')}
+                        onChange={handleChange}
+                    /></td>
                     <td><button onClick={handleEdit}>Cancel</button></td>
                     <td><button onClick={handleSave}>Save</button></td>
                 </>
@@ -73,6 +82,7 @@ function Expense({ expense, updateExpense: updateExpesne, deleteExpense }: Expen
                     <td>{expense.name}</td>
                     <td>{expense.amount}</td>
                     <td>{expense.category}</td>
+                    <td>{format(expense.date, 'dd-MM-yy')}</td>
                     <td><button onClick={handleEdit}>Edit</button></td>
                     <td><button onClick={handleDelete}>Delete</button></td>
                 </>

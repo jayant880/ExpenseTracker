@@ -3,6 +3,7 @@ export interface ExpenseNode {
     name: string;
     amount: number | "";
     category: Category;
+    date: Date;
 }
 
 export enum Category {

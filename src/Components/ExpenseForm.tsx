@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import type { ExpenseNode } from "../types/types";
 import { Category } from '../types/types';
+import { format } from "date-fns";
 
 const INITIAL_EXPENSE: ExpenseNode = {
     id: "",
     name: "",
     amount: 0,
-    category: Category.None
+    category: Category.None,
+    date: new Date(),
 };
 
 interface ExpenseFormProps {
@@ -20,7 +22,8 @@ function ExpenseForm({ addExpense }: ExpenseFormProps) {
         const { name, value } = e.target;
         setExpense(prev => ({
             ...prev,
-            [name]: name === "amount" ? Number(value) : value
+            [name]: name === "amount" ? Number(value) :
+                name === "date" ? new Date(value) : value
         }));
     }
 
@@ -63,6 +66,8 @@ function ExpenseForm({ addExpense }: ExpenseFormProps) {
                 <option value={Category.Bill}>Bill</option>
             </select>
             <br />
+            <label htmlFor="date">Date</label>
+            <input type="date" id="date" name="date" value={format(expense.date, 'yyyy-MM-dd')} onChange={handleChange} />
             <button type="submit">Add</button>
         </form>
     )
