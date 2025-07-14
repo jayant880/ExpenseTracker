@@ -6,6 +6,10 @@ export interface ExpenseNode {
     date: Date;
 }
 
+export interface Budget {
+    amount: number;
+}
+
 export enum Category {
     None = "None",
     Food = "Food",

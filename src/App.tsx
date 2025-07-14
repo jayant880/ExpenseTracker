@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import ExpenseForm from "./Components/ExpenseForm"
 import ViewExpesnes from "./Components/ViewExpenses";
 import { loadFromLocalStorage, saveToLocalStorage } from "./utils/localStorage";
-import type { ExpenseNode } from "./types/types";
+import { type Budget, type ExpenseNode } from "./types/types";
+import BudgetForm from "./Components/BudgetForm";
 
 function App() {
   const [expenseList, setExpenseList] = useState<ExpenseNode[]>(loadFromLocalStorage);
+  const [budget, setBudget] = useState<Budget>({ amount: 0 });
 
   function addExpense(newExpense: ExpenseNode): void {
     newExpense = { ...newExpense, id: crypto.randomUUID() }
@@ -24,12 +26,18 @@ function App() {
     setExpenseList(updatedExpenseList);
   }
 
+  function addBudget(newBudget: Budget): void {
+    setBudget(newBudget);
+  }
+
   useEffect(() => {
     saveToLocalStorage(expenseList);
   }, [expenseList])
 
   return (
     <>
+      <BudgetForm addBudget={addBudget} />
+      {/* Show Budget */} <div>{budget.amount}</div>
       <ExpenseForm addExpense={addExpense} />
       <ViewExpesnes expenseList={expenseList} updateExpense={updateExpense} deleteExpense={deleteExpense} />
     </>
