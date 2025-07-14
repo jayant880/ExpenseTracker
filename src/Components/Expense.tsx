@@ -79,7 +79,7 @@ function Expense({ expense, updateExpense: updateExpesne, deleteExpense }: Expen
             ) : (
                 // edit mode is false
                 <>
-                    <td>{expense.name}</td>
+                    <td>{expense.name === "" ? "N/A" : expense.name}</td>
                     <td>{expense.amount}</td>
                     <td>{expense.category}</td>
                     <td>{format(expense.date, 'dd-MM-yy')}</td>
