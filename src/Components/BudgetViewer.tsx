@@ -1,12 +1,48 @@
+import { useState } from "react"
 import type { Budget } from "../types/types"
 
 interface BudgetViewerProps {
-    budget: Budget
+    budget: Budget;
+    updateBudget(newBudget: Budget): void;
 }
 
-function BudgetViewer({ budget }: BudgetViewerProps) {
+
+function BudgetViewer({ budget, updateBudget }: BudgetViewerProps) {
+    const [isEditMode, setIsEditMode] = useState<boolean>(false);
+    const [newBudget, setNewBudget] = useState<Budget>(budget);
+
+
+    function handleEdit(): void {
+        setIsEditMode(!isEditMode);
+    }
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target;
+        setNewBudget({ ...newBudget, [name]: value });
+    }
+
+    function handleSave() {
+        updateBudget(newBudget);
+        setIsEditMode(false);
+    }
+
     return (
-        <div>{budget.amount}</div>
+        <>
+            {isEditMode ? (
+                // Edit mode is on
+                <>
+                    <input type="number" id="amount" name="amount" value={newBudget.amount} onChange={handleChange} />
+                    <button onClick={handleEdit}>Edit</button>
+                    <button onClick={handleSave}>Save</button>
+                </>
+            ) : (
+                <>
+                    <div>{budget.amount}</div>
+                    <button onClick={handleEdit}>Edit</button>
+                    <button>Reset</button>
+                </>
+            )}
+        </>
     )
 }
 

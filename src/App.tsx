@@ -4,6 +4,7 @@ import ViewExpesnes from "./Components/ViewExpenses";
 import { loadFromLocalStorage, saveToLocalStorage } from "./utils/localStorage";
 import { type Budget, type ExpenseNode } from "./types/types";
 import BudgetForm from "./Components/BudgetForm";
+import BudgetViewer from "./Components/BudgetViewer";
 
 function App() {
   const [expenseList, setExpenseList] = useState<ExpenseNode[]>(loadFromLocalStorage);
@@ -37,7 +38,7 @@ function App() {
   return (
     <>
       <BudgetForm addBudget={addBudget} />
-      {/* Show Budget */} <div>{budget.amount}</div>
+      <BudgetViewer budget={budget} updateBudget={addBudget} />
       <ExpenseForm addExpense={addExpense} />
       <ViewExpesnes expenseList={expenseList} updateExpense={updateExpense} deleteExpense={deleteExpense} />
     </>
