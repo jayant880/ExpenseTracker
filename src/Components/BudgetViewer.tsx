@@ -14,16 +14,22 @@ function BudgetViewer({ budget, updateBudget }: BudgetViewerProps) {
 
     function handleEdit(): void {
         setIsEditMode(!isEditMode);
+        setNewBudget(budget)
     }
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const { name, value } = e.target;
         setNewBudget({ ...newBudget, [name]: value });
     }
 
-    function handleSave() {
+    function handleSave(): void {
         updateBudget(newBudget);
         setIsEditMode(false);
+    }
+
+    function handleReset(): void {
+        updateBudget({ amount: 0 });
+        setNewBudget({ amount: 0 })
     }
 
     return (
@@ -39,7 +45,7 @@ function BudgetViewer({ budget, updateBudget }: BudgetViewerProps) {
                 <>
                     <div>{budget.amount}</div>
                     <button onClick={handleEdit}>Edit</button>
-                    <button>Reset</button>
+                    <button onClick={handleReset}>Reset</button>
                 </>
             )}
         </>
