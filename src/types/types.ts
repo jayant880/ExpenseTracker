@@ -6,7 +6,7 @@ export interface ExpenseNode {
     date: Date;
 }
 
-export interface Budget {
+export interface BudgetNode {
     amount: number;
 }
 

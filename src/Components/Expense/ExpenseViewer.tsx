@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { ExpenseNode } from "../types/types";
-import Expense from "./Expense";
+import type { ExpenseNode } from "../../types/types"
+import ExpenseRow from "./ExpenseRow"
 import { endOfMonth, endOfWeek, isWithinInterval, startOfMonth, startOfWeek } from "date-fns";
 
 interface ViewExpenseProps {
@@ -50,7 +50,7 @@ function ViewExpenses({ expenseList, updateExpense: updateExpense, deleteExpense
                 </thead>
                 <tbody>
                     {filteredExpenses.map((expense: ExpenseNode) => (
-                        <Expense key={expense.id} expense={expense} updateExpense={updateExpense} deleteExpense={deleteExpense} />
+                        <ExpenseRow key={expense.id} expense={expense} updateExpense={updateExpense} deleteExpense={deleteExpense} />
                     ))}
                 </tbody>
             </table>

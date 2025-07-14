@@ -1,13 +1,13 @@
 import { useState } from "react"
-import type { Budget } from "../types/types"
+import type { Budget } from "../../types/types";
 
 interface BudgetViewerProps {
     budget: Budget;
-    updateBudget(newBudget: Budget): void;
+    setBudget(newBudget: Budget): void;
 }
 
 
-function BudgetViewer({ budget, updateBudget }: BudgetViewerProps) {
+function BudgetViewer({ budget, setBudget }: BudgetViewerProps) {
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
     const [newBudget, setNewBudget] = useState<Budget>(budget);
 
@@ -23,12 +23,12 @@ function BudgetViewer({ budget, updateBudget }: BudgetViewerProps) {
     }
 
     function handleSave(): void {
-        updateBudget(newBudget);
+        setBudget(newBudget);
         setIsEditMode(false);
     }
 
     function handleReset(): void {
-        updateBudget({ amount: 0 });
+        setBudget({ amount: 0 });
         setNewBudget({ amount: 0 })
     }
 

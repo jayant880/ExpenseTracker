@@ -1,6 +1,5 @@
 import { useState } from "react";
-import type { ExpenseNode } from "../types/types"
-import { Category } from "../types/types";
+import { type ExpenseNode, Category } from "../../types/types";
 import { format } from 'date-fns';
 
 interface ExpenseProps {
@@ -9,7 +8,7 @@ interface ExpenseProps {
     deleteExpense(id: string): void;
 }
 
-function Expense({ expense, updateExpense: updateExpesne, deleteExpense }: ExpenseProps) {
+function ExpenseRow({ expense, updateExpense: updateExpesne, deleteExpense }: ExpenseProps) {
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editedExpesne, setEditedExpense] = useState<ExpenseNode>(expense);
 
@@ -91,4 +90,4 @@ function Expense({ expense, updateExpense: updateExpesne, deleteExpense }: Expen
     )
 }
 
-export default Expense
+export default ExpenseRow

@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
-import type { Budget } from '../types/types';
+import type { Budget } from '../../types/types';
 
 interface BudgetProps {
-    addBudget: (budget: Budget) => void;
+    setBudget: (budget: Budget) => void;
 }
 
 const INTIAL_BUDGET: Budget = {
     amount: 0,
 }
 
-function BudgetForm({ addBudget }: BudgetProps) {
-    const [budget, setBudget] = useState<Budget>(INTIAL_BUDGET);
+function BudgetForm({ setBudget }: BudgetProps) {
+    const [newBudget, setNewBudget] = useState<Budget>(INTIAL_BUDGET);
 
-    function handleSubmit(e: React.FormEvent) {
+    function handleSubmit(e: React.FormEvent): void {
         e.preventDefault();
-        addBudget(budget);
-        setBudget(INTIAL_BUDGET);
+        setBudget(newBudget);
+        setNewBudget(INTIAL_BUDGET);
     }
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
         const { name, value } = e.target;
-        setBudget({ ...budget, [name]: Number(value) })
+        setNewBudget({ ...newBudget, [name]: Number(value) })
     }
 
     return (
@@ -31,7 +31,7 @@ function BudgetForm({ addBudget }: BudgetProps) {
                     type="number"
                     id="amount"
                     name="amount"
-                    value={budget.amount}
+                    value={newBudget.amount}
                     onChange={handleChange}
                 />
                 <button type='submit'>Set This month Budget</button>

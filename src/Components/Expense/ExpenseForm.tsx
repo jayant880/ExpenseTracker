@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import type { ExpenseNode } from "../types/types";
-import { Category } from '../types/types';
+import { type ExpenseNode, Category } from "../../types/types";
 import { format } from "date-fns";
 
 const INITIAL_EXPENSE: ExpenseNode = {
