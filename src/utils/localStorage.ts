@@ -1,19 +1,20 @@
-import type { ExpenseNode } from '../types/types';
+import type { ExpenseNode, BudgetNode } from '../types/types';
 
-const localStorageKey = "Expense List";
+const expenseListKey = "Expense List";
+const budgetKey = "Budget";
 
-export function saveToLocalStorage(expenseList: ExpenseNode[]): void {
+export function saveExpensesToLocalStorage(expenseList: ExpenseNode[]): void {
     try{
         const expenseListString = JSON.stringify(expenseList);
-        localStorage.setItem(localStorageKey, expenseListString);
+        localStorage.setItem(expenseListKey, expenseListString);
     } catch (error) {
         console.error("Failed to save expenses to local Storage", error);
     }
 }
 
-export function loadFromLocalStorage(): ExpenseNode[] {
+export function loadExpenseFromLocalStorage(): ExpenseNode[] {
     try{
-        const expenseListString = localStorage.getItem(localStorageKey);
+        const expenseListString = localStorage.getItem(expenseListKey);
         if(!expenseListString) return [];
 
         const parsedData = JSON.parse(expenseListString);
@@ -21,5 +22,27 @@ export function loadFromLocalStorage(): ExpenseNode[] {
     } catch (error) {
         console.error("Failed to load expenses from localStorage", error);
         return [];
+    }
+}
+
+export function saveBudgetToLocalStorage(budget :BudgetNode): void {
+    try {
+        const budgetString = JSON.stringify(budget);
+        localStorage.setItem(budgetKey, budgetString);
+    } catch (error) {
+        console.error('Failed to save Budget to local Storage', error);
+    }
+}
+
+export function loadBudgetFromLocalStorage(): BudgetNode {
+    try{
+        const budgetString = localStorage.getItem(budgetKey);
+        if(!budgetString) return {amount: 0};
+
+        const parsedData = JSON.parse(budgetString);
+        return parsedData || {amount: 0};
+    } catch (error) {
+        console.error("Failed to load Budget from localStorage", error);
+        return {amount: 0};
     }
 }

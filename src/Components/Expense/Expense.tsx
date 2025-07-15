@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import ExpenseForm from "./ExpenseForm";
 import ViewExpenses from "./ExpenseViewer";
 
-import { loadFromLocalStorage, saveToLocalStorage } from '../../utils/localStorage';
+import { loadExpenseFromLocalStorage, saveExpensesToLocalStorage } from '../../utils/localStorage';
 
 import type { ExpenseNode } from "../../types/types";
 
 function Expense() {
-    const [expenseList, setExpenseList] = useState<ExpenseNode[]>(loadFromLocalStorage);
+    const [expenseList, setExpenseList] = useState<ExpenseNode[]>(loadExpenseFromLocalStorage);
 
     function addExpense(newExpense: ExpenseNode): void {
         newExpense = { ...newExpense, id: crypto.randomUUID() }
@@ -28,7 +28,7 @@ function Expense() {
     }
 
     useEffect(() => {
-        saveToLocalStorage(expenseList);
+        saveExpensesToLocalStorage(expenseList);
     }, [expenseList])
 
     return (
