@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { type ExpenseNode, Category } from "../../types/types";
+import { type ExpenseNode, Category } from "../../types/index";
 import { format } from 'date-fns';
 
 interface ExpenseProps {
     expense: ExpenseNode;
-    updateExpense: (Editedxpesnse: ExpenseNode) => void;
+    updateExpense: (editedExpense: ExpenseNode) => void;
     deleteExpense: (id: string) => void;
 }
 
 function ExpenseRow({ expense, updateExpense, deleteExpense }: ExpenseProps) {
     const [editMode, setEditMode] = useState<boolean>(false);
-    const [editedExpesne, setEditedExpense] = useState<ExpenseNode>(expense);
+    const [editedExpense, setEditedExpense] = useState<ExpenseNode>(expense);
 
     function handleEdit() {
         setEditMode(!editMode);
-        setEditedExpense(expense)
+        setEditedExpense(expense);
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -27,8 +27,8 @@ function ExpenseRow({ expense, updateExpense, deleteExpense }: ExpenseProps) {
     }
 
     function handleSave() {
-        if (editedExpesne.amount <= 0) return;
-        updateExpense(editedExpesne)
+        if (editedExpense.amount <= 0) return;
+        updateExpense(editedExpense);
         setEditMode(false);
     }
 
@@ -37,68 +37,93 @@ function ExpenseRow({ expense, updateExpense, deleteExpense }: ExpenseProps) {
     }
 
     return (
-        <tr>
+        <tr className="border-b border-gray-200 hover:bg-gray-50">
             {editMode ? (
-                // edit mode is true
                 <>
-                    <td>
+                    <td className="px-4 py-3">
                         <input
                             type="text"
                             name="name"
-                            value={editedExpesne.name}
+                            value={editedExpense.name}
                             onChange={handleChange}
+                            className="w-full px-2 py-1 border border-gray-300 rounded"
                         />
                     </td>
-                    <td>
+                    <td className="px-4 py-3">
                         <input
                             type="number"
                             name="amount"
-                            value={editedExpesne.amount}
+                            value={editedExpense.amount}
                             onChange={handleChange}
-                            min={"0.01"}
-                            step={"0.01"}
+                            min="0.01"
+                            step="0.01"
+                            className="w-full px-2 py-1 border border-gray-300 rounded"
                         />
                     </td>
-                    <td>
+                    <td className="px-4 py-3">
                         <select
-                            id="category"
                             name="category"
-                            value={editedExpesne.category}
+                            value={editedExpense.category}
                             onChange={handleChange}
+                            className="w-full px-2 py-1 border border-gray-300 rounded"
                         >
                             <option value={Category.None}>Choose Category</option>
                             <option value={Category.Food}>Food</option>
                             <option value={Category.Bill}>Bill</option>
+                            <option value={Category.Entertainment}>Entertainment</option>
+                            <option value={Category.Transport}>Transport</option>
+                            <option value={Category.Shopping}>Shopping</option>
+                            <option value={Category.Health}>Health</option>
                         </select>
                     </td>
-                    <td>
+                    <td className="px-4 py-3">
                         <input
                             type="date"
                             name="date"
-                            value={format(editedExpesne.date, 'yyyy-MM-dd')}
+                            value={format(editedExpense.date, 'yyyy-MM-dd')}
                             onChange={handleChange}
+                            className="w-full px-2 py-1 border border-gray-300 rounded"
                         />
                     </td>
-                    <td>
-                        <button onClick={handleEdit}>Cancel</button>
-                    </td>
-                    <td>
-                        <button onClick={handleSave}>Save</button>
+                    <td className="px-4 py-3 space-x-2">
+                        <button
+                            onClick={handleEdit}
+                            className="px-2 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={handleSave}
+                            className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                        >
+                            Save
+                        </button>
                     </td>
                 </>
             ) : (
-                // edit mode is false
                 <>
-                    <td>{expense.name || "N/A"}</td>
-                    <td>{expense.amount}</td>
-                    <td>{expense.category}</td>
-                    <td>{format(expense.date, 'dd-MM-yyyy')}</td>
-                    <td><button onClick={handleEdit}>Edit</button></td>
-                    <td><button onClick={handleDelete}>Delete</button></td>
+                    <td className="px-4 py-3">{expense.name || "N/A"}</td>
+                    <td className="px-4 py-3">${expense.amount.toFixed(2)}</td>
+                    <td className="px-4 py-3">{expense.category}</td>
+                    <td className="px-4 py-3">{format(expense.date, 'dd-MM-yyyy')}</td>
+                    <td className="px-4 py-3 space-x-2">
+                        <button
+                            onClick={handleEdit}
+                            className="px-2 py-1 bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={handleDelete}
+                            className="px-2 py-1 bg-red-100 text-red-800 rounded hover:bg-red-200"
+                        >
+                            Delete
+                        </button>
+                    </td>
                 </>
             )}
         </tr>
-    )
+    );
 }
 
-export default ExpenseRow
+export default ExpenseRow;

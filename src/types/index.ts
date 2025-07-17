@@ -13,5 +13,9 @@ export interface BudgetNode {
 export enum Category {
     None = "None",
     Food = "Food",
-    Bill = "Bill"
-};
+    Bill = "Bill",
+    Entertainment = "Entertainment",
+    Transport = "Transport",
+    Shopping = "Shopping",
+    Health = "Health"
+}

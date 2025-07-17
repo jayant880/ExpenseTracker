@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import ExpenseForm from "./ExpenseForm";
-import ViewExpenses from "./ExpenseViewer";
+import ExpenseViewer from "./ExpenseViewer";
 import { loadExpenseFromLocalStorage, saveExpensesToLocalStorage } from '../../utils/localStorage';
-import type { ExpenseNode } from "../../types/types";
+import type { ExpenseNode } from "../../types/index";
 
 interface ExpenseProps {
     setTotalExpense: (totalExpense: number) => void;
@@ -33,15 +33,16 @@ function Expense({ setTotalExpense }: ExpenseProps) {
     }, [expenseList])
 
     return (
-        <>
+        <div>
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">Expense Management</h2>
             <ExpenseForm addExpense={addExpense} />
-            <ViewExpenses
+            <ExpenseViewer
                 expenseList={expenseList}
                 updateExpense={updateExpense}
                 deleteExpense={deleteExpense}
                 setTotalExpense={setTotalExpense}
             />
-        </>
+        </div>
     )
 }
 

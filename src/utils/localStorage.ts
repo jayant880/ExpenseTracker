@@ -1,4 +1,4 @@
-import type { ExpenseNode, BudgetNode } from '../types/types';
+import type { ExpenseNode, BudgetNode } from '../types/index';
 
 const expenseListKey = "Expense List";
 const budgetKey = "Budget";

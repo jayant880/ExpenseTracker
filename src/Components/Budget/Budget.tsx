@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
-import type { BudgetNode } from "../../types/types";
-
+import type { BudgetNode } from "../../types/index";
 import BudgetForm from "./BudgetForm";
 import BudgetViewer from "../Budget/BudgetViewer";
 import { loadBudgetFromLocalStorage, saveBudgetToLocalStorage } from "../../utils/localStorage";
 
-interface BudgetProps {
-    totalExpense: number;
-}
-
-function Budget({ totalExpense }: BudgetProps) {
+const Budget: React.FC<{ totalExpense: number }> = ({ totalExpense }) => {
     const [currentBudget, setCurrentBudget] = useState<BudgetNode>(loadBudgetFromLocalStorage);
 
     function setBudget(newBudget: BudgetNode): void {
@@ -21,10 +16,11 @@ function Budget({ totalExpense }: BudgetProps) {
     }, [currentBudget])
 
     return (
-        <>
+        <div>
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">Budget Management</h2>
             <BudgetForm setBudget={setBudget} />
             <BudgetViewer budget={currentBudget} setBudget={setBudget} totalExpense={totalExpense} />
-        </>
+        </div>
     )
 }
 

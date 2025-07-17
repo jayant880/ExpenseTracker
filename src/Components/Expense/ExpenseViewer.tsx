@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import type { ExpenseNode } from "../../types/types"
+import type { ExpenseNode } from "../../types/index"
 import ExpenseRow from "./ExpenseRow"
 import { endOfMonth, endOfWeek, isWithinInterval, startOfMonth, startOfWeek } from "date-fns";
 
-interface ViewExpenseProps {
+interface ExpenseViewerProps {
     expenseList: ExpenseNode[];
     updateExpense: (editedxpesnse: ExpenseNode) => void;
     deleteExpense: (id: string) => void;
     setTotalExpense: (totalExpense: number) => void;
 }
 
-function ViewExpenses({ expenseList, updateExpense, deleteExpense, setTotalExpense }: ViewExpenseProps) {
+function ExpenseViewer({ expenseList, updateExpense, deleteExpense, setTotalExpense }: ExpenseViewerProps) {
     const [dateFilter, setDateFilter] = useState<"all" | "week" | "month">("all");
     const [total, setTotal] = useState<number>(0)
 
@@ -36,51 +36,68 @@ function ViewExpenses({ expenseList, updateExpense, deleteExpense, setTotalExpen
         setTotalExpense(expenseListTotal)
     }, [filteredExpensesList, setTotalExpense]);
 
-    if (filteredExpensesList.length === 0) return <p>No expenses found</p>
-
     return (
-        <div>
-            <div>
-                <button onClick={() => setDateFilter("all")}>All</button>
-                <button onClick={() => setDateFilter("week")}>This Week</button>
-                <button onClick={() => setDateFilter("month")}>This Month</button>
+        <div className="overflow-x-auto">
+            <div className="flex space-x-2 mb-4">
+                <button
+                    onClick={() => setDateFilter("all")}
+                    className={`px-3 py-1 rounded-md ${dateFilter === 'all' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+                >
+                    All
+                </button>
+                <button
+                    onClick={() => setDateFilter("week")}
+                    className={`px-3 py-1 rounded-md ${dateFilter === 'week' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+                >
+                    This Week
+                </button>
+                <button
+                    onClick={() => setDateFilter("month")}
+                    className={`px-3 py-1 rounded-md ${dateFilter === 'month' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+                >
+                    This Month
+                </button>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Amount</th>
-                        <th>Category</th>
-                        <th>Date</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredExpensesList.map((expense: ExpenseNode) => (
-                        <ExpenseRow
-                            key={expense.id}
-                            expense={expense}
-                            updateExpense={updateExpense}
-                            deleteExpense={deleteExpense}
-                        />
-                    ))}
-                </tbody>
-                {total > 0 && (
-                    <tfoot>
+
+            {filteredExpensesList.length === 0 ? (
+                <p className="text-center py-4 text-gray-500">No expenses found</p>
+            ) : (
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
                         <tr>
-                            <td>Total :</td>
-                            <td>{total.toFixed(2)}</td>
-                            <td> - </td>
-                            <td> - </td>
-                            <td> - </td>
-                            <td> - </td>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
-                    </tfoot>
-                )}
-            </table>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                        {filteredExpensesList.map((expense: ExpenseNode) => (
+                            <ExpenseRow
+                                key={expense.id}
+                                expense={expense}
+                                updateExpense={updateExpense}
+                                deleteExpense={deleteExpense}
+                            />
+                        ))}
+                    </tbody>
+                    {total > 0 && (
+                        <tfoot className="bg-gray-50">
+                            <tr>
+                                <td className="px-4 py-3 font-medium">Total:</td>
+                                <td className="px-4 py-3 font-medium">${total.toFixed(2)}</td>
+                                <td className="px-4 py-3"></td>
+                                <td className="px-4 py-3"></td>
+                                <td className="px-4 py-3"></td>
+                            </tr>
+                        </tfoot>
+                    )}
+                </table>
+            )}
+
         </div>
     );
 }
 
-export default ViewExpenses;
+export default ExpenseViewer;
