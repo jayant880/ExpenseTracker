@@ -1,30 +1,31 @@
 import { useState, useEffect } from "react";
-
 import ExpenseForm from "./ExpenseForm";
 import ViewExpenses from "./ExpenseViewer";
-
 import { loadExpenseFromLocalStorage, saveExpensesToLocalStorage } from '../../utils/localStorage';
-
 import type { ExpenseNode } from "../../types/types";
 
-function Expense() {
+interface ExpenseProps {
+    setTotalExpense: (totalExpense: number) => void;
+}
+
+function Expense({ setTotalExpense }: ExpenseProps) {
     const [expenseList, setExpenseList] = useState<ExpenseNode[]>(loadExpenseFromLocalStorage);
 
     function addExpense(newExpense: ExpenseNode): void {
-        newExpense = { ...newExpense, id: crypto.randomUUID() }
-        setExpenseList([...expenseList, newExpense]);
+        const expenseWithId = { ...newExpense, id: crypto.randomUUID() };
+        setExpenseList(prev => [...prev, expenseWithId]);
     }
 
     function updateExpense(editedExpense: ExpenseNode): void {
-        const updatedExpenseList = expenseList.map((expense: ExpenseNode) => {
-            return editedExpense.id === expense.id ? editedExpense : expense;
-        })
-        setExpenseList(updatedExpenseList);
+        setExpenseList(prev =>
+            prev.map(expense =>
+                expense.id === editedExpense.id ? editedExpense : expense
+            )
+        );
     }
 
     function deleteExpense(id: string): void {
-        const updatedExpenseList = expenseList.filter((expense: ExpenseNode) => expense.id !== id);
-        setExpenseList(updatedExpenseList);
+        setExpenseList(prev => prev.filter(expense => expense.id !== id));
     }
 
     useEffect(() => {
@@ -34,7 +35,12 @@ function Expense() {
     return (
         <>
             <ExpenseForm addExpense={addExpense} />
-            <ViewExpenses expenseList={expenseList} updateExpense={updateExpense} deleteExpense={deleteExpense} />
+            <ViewExpenses
+                expenseList={expenseList}
+                updateExpense={updateExpense}
+                deleteExpense={deleteExpense}
+                setTotalExpense={setTotalExpense}
+            />
         </>
     )
 }

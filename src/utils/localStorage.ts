@@ -5,10 +5,15 @@ const budgetKey = "Budget";
 
 export function saveExpensesToLocalStorage(expenseList: ExpenseNode[]): void {
     try{
-        const expenseListString = JSON.stringify(expenseList);
+        const expenseListString = JSON.stringify(expenseList, (key, value) => {
+            if(key === 'date' && value instanceof Date) {
+                return value.toISOString();
+            }
+            return value;
+        });
         localStorage.setItem(expenseListKey, expenseListString);
     } catch (error) {
-        console.error("Failed to save expenses to local Storage", error);
+        console.error("Failed to save expenses to localStorage", error);
     }
 }
 
@@ -18,7 +23,12 @@ export function loadExpenseFromLocalStorage(): ExpenseNode[] {
         if(!expenseListString) return [];
 
         const parsedData = JSON.parse(expenseListString);
-        return Array.isArray(parsedData) ? parsedData : [] 
+        if(!Array.isArray(parsedData)) return [];
+
+        return parsedData.map((expense) => ({
+            ...expense,
+            date: new Date(expense.date)
+        }));
     } catch (error) {
         console.error("Failed to load expenses from localStorage", error);
         return [];
@@ -40,7 +50,7 @@ export function loadBudgetFromLocalStorage(): BudgetNode {
         if(!budgetString) return {amount: 0};
 
         const parsedData = JSON.parse(budgetString);
-        return parsedData || {amount: 0};
+        return parsedData && typeof parsedData.amount === 'number' ? parsedData : {amount : 0};
     } catch (error) {
         console.error("Failed to load Budget from localStorage", error);
         return {amount: 0};

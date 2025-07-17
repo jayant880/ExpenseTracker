@@ -26,9 +26,9 @@ function ExpenseForm({ addExpense }: ExpenseFormProps) {
         }));
     }
 
-    function handleSubmit(e: React.FormEvent): void | null {
+    function handleSubmit(e: React.FormEvent): void {
         e.preventDefault();
-        if (!expense.amount) return null;
+        if (!expense.amount || expense.amount <= 0) return;
         addExpense(expense)
         setExpense(INITIAL_EXPENSE)
     }
@@ -49,8 +49,11 @@ function ExpenseForm({ addExpense }: ExpenseFormProps) {
                 type="number"
                 id="amount"
                 name="amount"
-                value={expense.amount}
+                value={expense.amount || ''}
                 onChange={handleChange}
+                min={"0.01"}
+                step={"0.01"}
+                required
             />
             <br />
             <label htmlFor="category">Category:</label>
@@ -66,8 +69,14 @@ function ExpenseForm({ addExpense }: ExpenseFormProps) {
             </select>
             <br />
             <label htmlFor="date">Date</label>
-            <input type="date" id="date" name="date" value={format(expense.date, 'yyyy-MM-dd')} onChange={handleChange} />
-            <button type="submit">Add</button>
+            <input
+                type="date"
+                id="date"
+                name="date"
+                value={format(expense.date, 'yyyy-MM-dd')}
+                onChange={handleChange}
+            />
+            <button type="submit">Add Expense</button>
         </form>
     )
 }

@@ -1,7 +1,7 @@
 export interface ExpenseNode {
     id: string;
     name: string;
-    amount: number | "";
+    amount: number;
     category: Category;
     date: Date;
 }

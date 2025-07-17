@@ -5,11 +5,12 @@ import { endOfMonth, endOfWeek, isWithinInterval, startOfMonth, startOfWeek } fr
 
 interface ViewExpenseProps {
     expenseList: ExpenseNode[];
-    updateExpense(Editedxpesnse: ExpenseNode): void;
-    deleteExpense(id: string): void;
+    updateExpense: (editedxpesnse: ExpenseNode) => void;
+    deleteExpense: (id: string) => void;
+    setTotalExpense: (totalExpense: number) => void;
 }
 
-function ViewExpenses({ expenseList, updateExpense: updateExpense, deleteExpense }: ViewExpenseProps) {
+function ViewExpenses({ expenseList, updateExpense, deleteExpense, setTotalExpense }: ViewExpenseProps) {
     const [dateFilter, setDateFilter] = useState<"all" | "week" | "month">("all");
     const [total, setTotal] = useState<number>(0)
 
@@ -28,16 +29,14 @@ function ViewExpenses({ expenseList, updateExpense: updateExpense, deleteExpense
     })
 
     useEffect(() => {
-        let expenseListTotal: number = 0;
-        filteredExpensesList.map((expenseItem) => {
-            expenseListTotal += Number(expenseItem.amount)
-        });
+        const expenseListTotal = filteredExpensesList.reduce((sum, expense) => {
+            return sum + Number(expense.amount);
+        }, 0);
         setTotal(expenseListTotal);
-    }, [filteredExpensesList])
+        setTotalExpense(expenseListTotal)
+    }, [filteredExpensesList, setTotalExpense]);
 
-    if (filteredExpensesList.length === 0) return (
-        <p>No expenses</p>
-    );
+    if (filteredExpensesList.length === 0) return <p>No expenses found</p>
 
     return (
         <div>
@@ -52,21 +51,26 @@ function ViewExpenses({ expenseList, updateExpense: updateExpense, deleteExpense
                         <th>Name</th>
                         <th>Amount</th>
                         <th>Category</th>
-                        <th>Transaction Date</th>
+                        <th>Date</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredExpensesList.map((expense: ExpenseNode) => (
-                        <ExpenseRow key={expense.id} expense={expense} updateExpense={updateExpense} deleteExpense={deleteExpense} />
+                        <ExpenseRow
+                            key={expense.id}
+                            expense={expense}
+                            updateExpense={updateExpense}
+                            deleteExpense={deleteExpense}
+                        />
                     ))}
                 </tbody>
-                {total !== 0 && (
+                {total > 0 && (
                     <tfoot>
                         <tr>
                             <td>Total :</td>
-                            <td>{total}</td>
+                            <td>{total.toFixed(2)}</td>
                             <td> - </td>
                             <td> - </td>
                             <td> - </td>

@@ -5,7 +5,11 @@ import BudgetForm from "./BudgetForm";
 import BudgetViewer from "../Budget/BudgetViewer";
 import { loadBudgetFromLocalStorage, saveBudgetToLocalStorage } from "../../utils/localStorage";
 
-function Budget() {
+interface BudgetProps {
+    totalExpense: number;
+}
+
+function Budget({ totalExpense }: BudgetProps) {
     const [currentBudget, setCurrentBudget] = useState<BudgetNode>(loadBudgetFromLocalStorage);
 
     function setBudget(newBudget: BudgetNode): void {
@@ -19,7 +23,7 @@ function Budget() {
     return (
         <>
             <BudgetForm setBudget={setBudget} />
-            <BudgetViewer budget={currentBudget} setBudget={setBudget} />
+            <BudgetViewer budget={currentBudget} setBudget={setBudget} totalExpense={totalExpense} />
         </>
     )
 }
